@@ -93,7 +93,7 @@ class _MosqueSelectionPageState extends State<MosqueSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mosque Selection Page'),
+        title: Text('Add Mosque To Favourite'),
         backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
@@ -166,7 +166,9 @@ class _MosqueSelectionPageState extends State<MosqueSelectionPage> {
                     // Create the request payload
                     final mosqueIds =
                         selectedMosques.map((mosque) => mosque['id']).toList();
-                    final payload = {'mosqueIds': mosqueIds};
+                    final payload = {'mosqueId': mosqueIds};
+
+                    print(mosqueIds);
 
                     try {
                       final response = await http.post(
@@ -174,6 +176,7 @@ class _MosqueSelectionPageState extends State<MosqueSelectionPage> {
                         headers: headers,
                         body: jsonEncode(payload),
                       );
+                      print(jsonEncode(payload));
 
                       if (response.statusCode == 200) {
                         print('API Response: ${response.body}');

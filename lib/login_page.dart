@@ -60,13 +60,18 @@ class LoginPage extends StatelessWidget {
                       final data = json.decode(response.body);
                       final token = data['token'];
                       final role = data['role'];
+                      final mosqueId = data['mosqueId'][0]; // Assuming there's only one mosque ID
+
                       print(token);
                       print(role);
+                      print(mosqueId);
+
 
                       // Store the token securely and navigate to the home page
                       await SharedPreferences.getInstance().then((prefs) {
                         prefs.setString('token', token);
                         prefs.setString('role', role);
+                        prefs.setString('mosqueId', mosqueId);
                       });
 
                       if (role == 'user') {

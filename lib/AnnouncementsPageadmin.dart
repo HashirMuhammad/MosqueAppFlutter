@@ -53,30 +53,34 @@ class _AnnouncementsPageadminState extends State<AnnouncementsPageadmin> {
               ElevatedButton(
                 onPressed: () async {
                   // Retrieve the token from SharedPreferences
-                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   final String? token = prefs.getString('token');
-        
+                  final String? mosqueId = prefs.getString('mosqueId');
+
+                  print(mosqueId);
+
                   // Make API request to http://localhost:3000/posts
                   final apiUrl = 'http://localhost:3000/posts';
                   final headers = {
                     'Content-Type': 'application/json',
                     'Authorization': '$token',
                   };
-        
+
                   // Create the request payload
                   final payload = {
-                    'mosqueid': '657a237bb6abc9d79202559c', // Replace with the actual mosque id
+                    'mosqueid': mosqueId, // Replace with the actual mosque id
                     'title': titleController.text.trim(),
                     'description': descriptionController.text.trim(),
                   };
-        
+
                   try {
                     final response = await http.post(
                       Uri.parse(apiUrl),
                       headers: headers,
                       body: jsonEncode(payload),
                     );
-        
+
                     if (response.statusCode == 200) {
                       print('Announcement added successfully');
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -84,7 +88,8 @@ class _AnnouncementsPageadminState extends State<AnnouncementsPageadmin> {
                         duration: Duration(seconds: 2),
                       ));
                     } else {
-                      print('Failed to add announcement. Status code: ${response.statusCode}');
+                      print(
+                          'Failed to add announcement. Status code: ${response.statusCode}');
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Failed to add announcement'),
                         duration: Duration(seconds: 2),
